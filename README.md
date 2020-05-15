@@ -1,5 +1,5 @@
 # HerKoole
-[![Drone (cloud)](https://img.shields.io/drone/build/1995parham/herkoole.svg?style=flat-square)](https://cloud.drone.io/1995parham/herkoole)
+[![Drone (cloud)](https://img.shields.io/drone/build/1995parham/HerKoole.svg?style=flat-square)](https://cloud.drone.io/1995parham/HerKoole)
 
 ## Introduction
 I want to learn about evolutionary algorithms so I have created this repository to implement some of the algorithms here.
