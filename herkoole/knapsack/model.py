@@ -5,7 +5,6 @@ import model
 
 import typing
 import random
-import numpy as np
 
 
 class Model(model.Model):
@@ -74,7 +73,7 @@ class Chromosome(chromosome.Chromosome):
 
     def mutate(self, prob: float):
         for i in range(self.model.length):
-            rand = np.random.random()
+            rand = random.random()
             if rand < prob:
                 self.genes[i] = not self.genes[i]
 
@@ -88,7 +87,7 @@ class Chromosome(chromosome.Chromosome):
             Chromosome(),
             Chromosome(),
         )
-        rand = np.random.random()
+        rand = random.random()
         if rand < prob:
             chromosome1.genes[:idx] = parent1.genes[:idx]
             chromosome1.genes[idx:] = parent2.genes[idx:]
