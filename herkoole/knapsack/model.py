@@ -59,14 +59,14 @@ class Chromosome(chromosome.Chromosome):
         total_value = 0
 
         for i, gene in enumerate(self.genes):
-            if gene:
+            if gene is True:
                 total_weight += self.model.weights[i]
                 total_value += self.model.values[i]
 
         fitness = total_value
 
         if total_weight > self.model.max_weight:
-            return 1 / abs(fitness)
+            return 1 / fitness
 
         return fitness
 
