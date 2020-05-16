@@ -10,5 +10,5 @@ steps:
     commands:
       - pip install poetry
       - poetry install -v
-      # - poetry run pytest
+      - poetry run pytest
       - poetry run mypy herkoole
