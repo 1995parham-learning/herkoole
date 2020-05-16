@@ -11,5 +11,5 @@ class Model(abc.ABC):
 
     @staticmethod
     @abc.abstractstaticmethod
-    def chromosome_type():
+    def chromosome_type() -> typing.Type[Chromosome]:
         pass
