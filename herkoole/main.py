@@ -64,7 +64,7 @@ def main(info, problem, iterations, verbose):
         else:
             return
 
-    EvolutionaryAlgorithm(10, 20, iterations, m).run()
+    print(EvolutionaryAlgorithm(10, 20, iterations, m).run())
 
 
 if __name__ == "__main__":

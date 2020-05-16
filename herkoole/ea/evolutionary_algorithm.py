@@ -45,12 +45,24 @@ def warning_data_type_check_selection_algorithms(items, probs):
 class EvolutionaryAlgorithm:
     logger = logging.getLogger(__name__)
 
-    def __init__(self, mu: int, y: int, max_generation_count: int, model: Model):
+    def __init__(
+        self,
+        mu: int,
+        y: int,
+        max_generation_count: int,
+        model: Model,
+        window_size: int = 10,
+        threshold: float = 0.1,
+    ):
         # mu (population size)
         self.m = mu
         # lambda (children size)
         self.y = y
         self.max_generation_count = max_generation_count
+        self.average_fitness: typing.List[float] = []
+
+        self.threshold = threshold
+        self.window_size = window_size
 
         self.population = np.array(model.initial_population(mu))
         self.chromosome_type: typing.Type[Chromosome] = model.chromosome_type()
@@ -58,9 +70,16 @@ class EvolutionaryAlgorithm:
         self.best_chromosome_fitness_in_total = 0
         self.generation_counter = 0
 
-    def run(self):
+    def run(self) -> Chromosome:
         while True:
-            self.logger.info("Generation %d", self.generation_counter)
+            self.average_fitness.append(
+                np.average(np.array([p.fitness() for p in self.population]))
+            )
+            self.logger.info(
+                "Generation %d - %f",
+                self.generation_counter,
+                self.average_fitness[self.generation_counter],
+            )
             parents = self.parent_selection()
             children = self.new_children(parents)
             self.population = self.remaining_population_selection(
@@ -71,7 +90,7 @@ class EvolutionaryAlgorithm:
             if self.stop_condition():
                 break
 
-        self.get_answer()
+        return self.get_answer()
 
     def parent_selection(self):
         fitnesses = np.array([p.fitness() for p in self.population])
@@ -146,9 +165,14 @@ class EvolutionaryAlgorithm:
         return np.array(selected_items)
 
     def stop_condition(self):
-        return self.generation_counter > self.max_generation_count
+        var = float("inf")
+        if len(self.average_fitness) > self.window_size:
+            var = np.var(self.average_fitness[-self.window_size :])
+        return (
+            self.generation_counter > self.max_generation_count or var < self.threshold
+        )
 
-    def get_answer(self):
+    def get_answer(self) -> Chromosome:
         best_phenotype_index = 0
         for i in range(1, len(self.population)):
             if (
@@ -157,4 +181,4 @@ class EvolutionaryAlgorithm:
             ):
                 best_phenotype_index = i
 
-        print(self.population[best_phenotype_index])
+        return self.population[best_phenotype_index]
