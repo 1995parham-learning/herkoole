@@ -66,7 +66,6 @@ class Chromosome(chromosome.Chromosome):
         fitness = total_value
 
         if total_weight > self.model.max_weight:
-            fitness -= total_weight - self.model.max_weight
             return 1 / abs(fitness)
 
         return fitness
