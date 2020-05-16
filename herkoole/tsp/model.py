@@ -60,8 +60,7 @@ class Chromosome(chromosome.Chromosome):
     def mutate(self, prob: float):
         rand = random.random()
         if rand < prob:
-            i = random.randrange(self.model.length)
-            j = random.randrange(self.model.length)
+            i, j = random.sample(range(self.model.length), 2)
             self.genes[i], self.genes[j] = self.genes[j], self.genes[i]
 
     @classmethod
