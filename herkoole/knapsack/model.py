@@ -71,16 +71,16 @@ class Chromosome(chromosome.Chromosome):
         return fitness
 
     def mutate(self, prob: float):
-        for i in range(self.model.length):
-            rand = random.random()
-            if rand < prob:
-                self.genes[i] = not self.genes[i]
+        rand = random.random()
+        if rand < prob:
+            i = random.randrange(self.model.length)
+            self.genes[i] = not self.genes[i]
 
     @classmethod
     def crossover(
         cls, parent1: Chromosome, parent2: Chromosome, prob: float
     ) -> typing.Tuple[chromosome.Chromosome, chromosome.Chromosome]:
-        idx = int(cls.model.length / 2)
+        idx = random.randrange(cls.model.length)
 
         chromosome1, chromosome2 = (
             Chromosome(),
