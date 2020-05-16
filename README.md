@@ -6,6 +6,9 @@ I want to learn about evolutionary algorithms so I have created this repository 
 I am reading the **Introduction to Evolutionary Algorithms** book from Springer.
 Repository name comes from [Disney's Hercules](https://en.wikipedia.org/wiki/Disney's_Hercules_(video_game)) Video Game.
 
+## Structure
+I am trying to create a generic structure for evolutionary algorithms, but I am not sure this structure is good or useful.
+
 ## Up and Running
 
 ```sh
