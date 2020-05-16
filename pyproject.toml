@@ -8,6 +8,8 @@ authors = ["Parham Alvani <parham.alvani@gmail.com>"]
 python = "^3.8"
 numpy = "^1.18.4"
 click = "^7.1.2"
+jupyter = "^1.0.0"
+matplotlib = "^3.2.1"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.770"
