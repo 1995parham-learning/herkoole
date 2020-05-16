@@ -3,6 +3,6 @@ import dataclasses
 
 @dataclasses.dataclass(repr=True)
 class City:
-    identifier: str
+    identifier: int
     x: float
     y: float
