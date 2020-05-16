@@ -1,10 +1,12 @@
 from model import Model
+from chromosome import Chromosome
 
 import numpy as np
 import random
 import warnings
 import math
 import logging
+import typing
 
 # lamba = mu * 7
 
@@ -51,7 +53,7 @@ class EvolutionaryAlgorithm:
         self.max_generation_count = max_generation_count
 
         self.population = np.array(model.initial_population(mu))
-        self.chromosome_type = model.chromosome_type()
+        self.chromosome_type: typing.Type[Chromosome] = model.chromosome_type()
 
         self.best_chromosome_fitness_in_total = 0
         self.generation_counter = 0
