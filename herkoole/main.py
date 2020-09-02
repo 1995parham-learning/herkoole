@@ -33,7 +33,7 @@ def knapsack(f: io.TextIOBase) -> Model:
     weights: typing.List[int] = []
     values: typing.List[int] = []
 
-    for i in range(chromosome_length):
+    for _ in range(chromosome_length):
         value_weight = f.readline().split()
         values.append(int(value_weight[0]))
         weights.append(int(value_weight[1]))
