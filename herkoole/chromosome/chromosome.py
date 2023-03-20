@@ -19,6 +19,6 @@ class Chromosome(abc.ABC):
     @abc.abstractmethod
     @classmethod
     def crossover(
-        cls, parenet1: Chromosome, parent2: Chromosome, prob: float
+        cls, parent1: Chromosome, parent2: Chromosome, prob: float
     ) -> tuple[Chromosome, Chromosome]:
         raise NotImplementedError()
