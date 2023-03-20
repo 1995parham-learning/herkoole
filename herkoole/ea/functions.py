@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 
-from chromosome import Chromosome
+from herkoole.chromosome import Chromosome
 from .evolutionary_algorithm import (
     ParentSelector,
     NextPopulationSelector,

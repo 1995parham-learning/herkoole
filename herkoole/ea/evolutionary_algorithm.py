@@ -9,8 +9,8 @@ import abc
 import numpy as np
 import numpy.typing as npt
 
-from model import Model
-from chromosome import Chromosome
+from herkoole.model import Model
+from herkoole.chromosome import Chromosome
 
 
 class NextPopulationSelector(abc.ABC):
