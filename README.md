@@ -4,6 +4,10 @@
   <img src="./.github/assets/Hercposter.jpg" alt="Hercposter">
 </p>
 
+<p align="center">
+  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/1995parham-learning/herkoole/ci.yml?logo=github&style=for-the-badge">
+</p>
+
 ## Introduction
 
 I want to learn about evolutionary algorithms, so I have created this repository to implement some of its algorithms here.
