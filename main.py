@@ -10,6 +10,27 @@ from herkoole.ea import (
 )
 from herkoole.model import Model
 from herkoole.knapsack import Model as KModel
+from herkoole.tsp import Model as TModel, City
+
+
+def tsp(f: io.TextIOBase) -> Model:
+    """
+    reads a problem instance from a given file.
+    """
+
+    cities: typing.List[City] = []
+    while True:
+        line = f.readline()
+        if line == "":
+            break
+        coordinate = line.split()
+        identifier = int(coordinate[0])
+        x = float(coordinate[1])
+        y = float(coordinate[2])
+        city = City(identifier, x, y)
+        cities.append(city)
+
+    return TModel(cities)
 
 
 def knapsack(f: io.TextIOBase) -> Model:
@@ -46,10 +67,13 @@ def main(info, problem, iterations, verbose):
         logging.basicConfig(level=logging.INFO)
 
     with open(info, "r", encoding="utf-8") as f:
-        if problem == "knapsack":
-            m = knapsack(f)
-        else:
-            return
+        match problem:
+            case "knapsack":
+                m = knapsack(f)
+            case "tsp":
+                m = tsp(f)
+            case _:
+                return
 
     print(
         EvolutionaryAlgorithm(
