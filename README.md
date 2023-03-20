@@ -12,7 +12,13 @@ Repository name comes from [Disney's Hercules](<https://en.wikipedia.org/wiki/Di
 
 ## Structure
 
-I am trying to create a generic structure for evolutionary algorithms, but I am not sure this structure is good or useful.
+In evolutionary algorithms, we have basic structure to evolve current solution using mutate and crossover
+into new solutions to find the optimal one. Each problem needs to have its chromosomes, and each chromosome
+represents a solution of that problem.
+
+In `Herkoole` chromosome is an abstract class, and you need to extend it for your solution.
+Also, in `Herkoole` there is a class named Model which initiates the evolutionary algorithm,
+and you also must have a model for your problem.
 
 ## Up and Running
 
