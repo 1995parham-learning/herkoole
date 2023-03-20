@@ -1,17 +1,15 @@
 from __future__ import annotations
-
-import chromosome
-import model
-
-import typing
 import random
 
+import herkoole.chromosome
+import herkoole.model
 
-class Model(model.Model):
+
+class Model(herkoole.model.Model):
     def __init__(
         self,
-        weights: typing.List[int],
-        values: typing.List[int],
+        weights: list[int],
+        values: list[int],
         max_weight: int,
     ):
         self.weights = weights
@@ -20,30 +18,30 @@ class Model(model.Model):
         if len(self.weights) != len(self.values):
             raise ValueError("each item must a value and weight")
         self.length: int = len(self.weights)
-        Chromosome.model = self
 
-    def initial_population(self, mu: int) -> list[chromosome.Chromosome]:
-        population: list[chromosome.Chromosome] = []
+    def initial_population(
+        self, mu: int
+    ) -> list[herkoole.chromosome.Chromosome]:
+        population: list[herkoole.chromosome.Chromosome] = []
 
         for _ in range(mu):
-            chromosome = Chromosome()
+            chromosome = Chromosome(self)
             chromosome.random()
             population.append(chromosome)
 
         return population
 
-    @staticmethod
-    def chromosome_type():
-        return Chromosome
 
+class Chromosome(herkoole.chromosome.Chromosome):
+    """
+    Chromosome represents a one solution for knapsack problem which shows
+    an item selection. Each gens coresponds into an item which is picked
+    or not.
+    """
 
-class Chromosome(chromosome.Chromosome):
-    model: Model
-
-    def __init__(self):
-        self.genes: typing.List[bool] = []
-        if self.model is None:
-            raise ValueError("first create problem model")
+    def __init__(self, model: Model):
+        self.genes: list[bool] = []
+        self.model = model
 
     def __repr__(self):
         total_weight = 0
@@ -53,11 +51,17 @@ class Chromosome(chromosome.Chromosome):
             if gene is True:
                 total_weight += self.model.weights[i]
                 total_value += self.model.values[i]
-        return f"weight: {total_weight}, value: {total_value} with fitness: {self.fitness()}"
+        return (
+            f"weight: {total_weight}, "
+            f"value: {total_value} with fitness: {self.fitness()}"
+        )
 
     def random(self):
+        """
+        set values for gens randomly
+        """
         for _ in range(self.model.length):
-            self.genes.append(True if random.randint(0, 1) == 1 else False)
+            self.genes.append(random.randint(0, 1) == 1)
 
     def fitness(self) -> float:
         total_weight = 0
@@ -83,13 +87,19 @@ class Chromosome(chromosome.Chromosome):
 
     @classmethod
     def crossover(
-        cls, parent1: Chromosome, parent2: Chromosome, prob: float
-    ) -> typing.Tuple[chromosome.Chromosome, chromosome.Chromosome]:
-        idx = random.randrange(cls.model.length)
+        cls,
+        parent1: herkoole.chromosome.Chromosome,
+        parent2: herkoole.chromosome.Chromosome,
+        prob: float,
+    ) -> tuple[herkoole.chromosome.Chromosome, herkoole.chromosome.Chromosome]:
+        assert isinstance(parent1, cls)
+        assert isinstance(parent2, cls)
+
+        idx = random.randrange(parent1.model.length)
 
         chromosome1, chromosome2 = (
-            Chromosome(),
-            Chromosome(),
+            Chromosome(parent1.model),
+            Chromosome(parent2.model),
         )
         rand = random.random()
         if rand < prob:
