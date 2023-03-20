@@ -1,42 +1,32 @@
 from __future__ import annotations
 
-from .city import City
-
-import chromosome
-import model
-
-import typing
 import random
 
+import herkoole.chromosome
+import herkoole.model
+from .city import City
 
-class Model(model.Model):
-    def __init__(self, cities: typing.List[City]):
+
+class Model(herkoole.model.Model):
+    def __init__(self, cities: list[City]):
         self.cities = cities
         self.length = len(cities)
-        Chromosome.model = self
 
     def initial_population(
         self, mu: int
-    ) -> typing.List[chromosome.Chromosome]:
-        population: typing.List[chromosome.Chromosome] = []
-        for i in range(mu):
-            chromosome = Chromosome()
+    ) -> list[herkoole.chromosome.Chromosome]:
+        population: list[herkoole.chromosome.Chromosome] = []
+        for _ in range(mu):
+            chromosome = Chromosome(self)
             chromosome.random()
             population.append(chromosome)
         return population
 
-    @staticmethod
-    def chromosome_type():
-        return Chromosome
 
-
-class Chromosome(chromosome.Chromosome):
-    model: Model
-
-    def __init__(self):
-        self.genes: typing.List[int] = []
-        if self.model is None:
-            raise ValueError("first create problem model")
+class Chromosome(herkoole.chromosome.Chromosome):
+    def __init__(self, model: Model):
+        self.genes: list[int] = []
+        self.model = model
 
     def __repr__(self):
         res = " -> ".join(repr(self.model.cities[gene]) for gene in self.genes)
@@ -67,13 +57,19 @@ class Chromosome(chromosome.Chromosome):
 
     @classmethod
     def crossover(
-        cls, parent1: Chromosome, parent2: Chromosome, prob: float
-    ) -> typing.Tuple[chromosome.Chromosome, chromosome.Chromosome]:
+        cls,
+        parent1: herkoole.chromosome.Chromosome,
+        parent2: herkoole.chromosome.Chromosome,
+        prob: float,
+    ) -> tuple[herkoole.chromosome.Chromosome, herkoole.chromosome.Chromosome]:
+        assert isinstance(parent1, Chromosome)
+        assert isinstance(parent2, Chromosome)
+
         rand = random.random()
         if rand >= prob:
             return parent1, parent2
 
-        cycles = [-1] * cls.model.length
+        cycles = [-1] * parent1.model.length
         cycle_no = 1
         cyclestart = (i for i, v in enumerate(cycles) if v < 0)
 
@@ -84,8 +80,8 @@ class Chromosome(chromosome.Chromosome):
 
         cycle_no += 1
 
-        child1 = Chromosome()
-        child2 = Chromosome()
+        child1 = Chromosome(parent1.model)
+        child2 = Chromosome(parent1.model)
 
         child1.genes = [
             parent1.genes[i] if n % 2 else parent2.genes[i]

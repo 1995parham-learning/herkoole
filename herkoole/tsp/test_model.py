@@ -1,4 +1,4 @@
-from .model import Model
+from .model import Model, Chromosome
 from .city import City
 
 
@@ -12,6 +12,7 @@ def test_initiation():
 
     m = Model(cities)
     ch = m.initial_population(1)[0]
+    assert isinstance(ch, Chromosome)
 
     assert len(ch.genes) == len(cities)
     for i in range(len(cities)):
