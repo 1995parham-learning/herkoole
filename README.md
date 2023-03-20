@@ -1,4 +1,8 @@
-# HerKoole
+<h1 align="center"> 🌰 HerKoole 🎒 </h1>
+
+<p align="center">
+  <img src="./.github/assets/Hercposter.jpg" alt="Hercposter">
+</p>
 
 ## Introduction
 
