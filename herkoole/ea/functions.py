@@ -1,75 +1,19 @@
-import abc
-import warnings
-import math
 import numpy as np
+import numpy.typing as npt
 
-
-def warning_data_type_check_selection_algorithms(items, probs):
-    if type(items) == list:
-        items = np.array(items)
-    if type(probs) == list:
-        probs = np.array(probs)
-    if len(probs) != len(items):
-        raise ValueError(
-            "Length of probs and items must be equal! probs "
-            "length = {} and items length = {}".format(len(probs), len(items))
-        )
-    if type(probs) != np.ndarray or type(items) != np.ndarray:
-        raise ValueError(
-            "Type of items and probs must be list or np.array,"
-            " items type = {} and probs type = {}".format(type(items), type(probs))
-        )
-    if np.min(probs) < 0:
-        raise ValueError("Probabilities can not contain negative values")
-
-    if not math.isclose(np.sum(probs), 1):
-        warnings.warn(
-            "Sum of Probabilities array must be 1 but it is = {},"
-            " and we normalize it to reach sum equal 1".format(np.sum(probs)),
-            stacklevel=4,
-        )
-        probs = probs / np.sum(probs)
-    return items, probs
-
-
-class NextPopulationSelector(abc.ABC):
-    def __init__(self):
-        self.ea = None
-
-    def __get__(self, obj, objtype):
-        self.ea = obj
-        return self
-
-    def __call__(self, items, probs):
-        items, probs = warning_data_type_check_selection_algorithms(items, probs)
-        return self.select(items, probs)
-
-    @abc.abstractmethod
-    def select(self, items, probs):
-        pass
-
-
-class ParentSelector(abc.ABC):
-    def __init__(self):
-        self.ea = None
-
-    def __get__(self, obj, objtype):
-        self.ea = obj
-        return self
-
-    def __call__(self, probs):
-        return self.select(probs)
-
-    @abc.abstractmethod
-    def select(self, probs):
-        pass
+from chromosome import Chromosome
+from .evolutionary_algorithm import (
+    ParentSelector,
+    NextPopulationSelector,
+    EvolutionaryAlgorithm,
+)
 
 
 class StochasticUniversalSampling(ParentSelector):
-    def select(self, probs):
+    def select(self, probs: npt.NDArray[np.float64]):
         index = np.arange(self.ea.m)
         np.random.shuffle(index)
-        items = self.ea.population[index]
+        items = np.array(self.ea.population)[index]
         probs = probs[index]
         start_index = np.random.uniform(0, 1 / self.ea.y, 1)
         index_of_choose = np.linspace(start_index, 1, self.ea.y)
@@ -89,26 +33,30 @@ class StochasticUniversalSampling(ParentSelector):
 
 
 class QTournament(NextPopulationSelector):
-    def __init__(self, q):
+    def __init__(self, ea: EvolutionaryAlgorithm, q: float):
         if q == 0:
             raise ValueError("Q must be a possitive number")
         self.q = q
-        super().__init__()
+        super().__init__(ea)
 
-    def select(self, items, probs):
+    def select(
+        self, items: list[Chromosome], probs: npt.NDArray[np.float64]
+    ) -> list[Chromosome]:
         if self.ea.m == 0:
-            return np.array([])
-        else:
-            index = np.arange(len(items))
-            np.random.shuffle(index)
-            items = items[index]
-            probs = probs[index]
+            return []
 
-            selected_items = []
-            len_items = len(items)
+        index = np.arange(len(items))
+        np.random.shuffle(index)
+        np_items = np.array(items)[index]
+        probs = probs[index]
 
-            for i in range(self.ea.m):
-                indexes = np.random.choice(np.arange(len_items), self.q, replace=False)
-                selected_items.append(items[indexes[np.argmax(probs[indexes])]])
+        selected_items = []
+        len_items = len(np_items)
 
-        return np.array(selected_items)
+        for _ in range(self.ea.m):
+            indexes = np.random.choice(
+                np.arange(len_items), self.q, replace=False
+            )
+            selected_items.append(np_items[indexes[np.argmax(probs[indexes])]])
+
+        return list(selected_items)
