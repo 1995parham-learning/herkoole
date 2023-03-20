@@ -36,7 +36,7 @@ class StochasticUniversalSampling(ParentSelector):
 
 
 class QTournament(NextPopulationSelector):
-    def __init__(self, ea: EvolutionaryAlgorithm, q: float):
+    def __init__(self, ea: EvolutionaryAlgorithm, q: int):
         if q == 0:
             raise ValueError("Q must be a possitive number")
         self.q = q

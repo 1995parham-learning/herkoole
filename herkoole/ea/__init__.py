@@ -1,1 +1,2 @@
 from .evolutionary_algorithm import EvolutionaryAlgorithm
+from .functions import QTournament, StochasticUniversalSampling

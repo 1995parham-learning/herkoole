@@ -16,8 +16,8 @@ class Chromosome(abc.ABC):
     def mutate(self, prob: float):
         raise NotImplementedError()
 
-    @abc.abstractmethod
     @classmethod
+    @abc.abstractmethod
     def crossover(
         cls, parent1: Chromosome, parent2: Chromosome, prob: float
     ) -> tuple[Chromosome, Chromosome]:
