@@ -22,14 +22,14 @@ class Model(model.Model):
         self.length: int = len(self.weights)
         Chromosome.model = self
 
-    def initial_population(
-        self, mu: int
-    ) -> typing.List[chromosome.Chromosome]:
-        population: typing.List[chromosome.Chromosome] = []
-        for i in range(mu):
+    def initial_population(self, mu: int) -> list[chromosome.Chromosome]:
+        population: list[chromosome.Chromosome] = []
+
+        for _ in range(mu):
             chromosome = Chromosome()
             chromosome.random()
             population.append(chromosome)
+
         return population
 
     @staticmethod
