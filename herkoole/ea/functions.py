@@ -1,3 +1,6 @@
+"""
+Implementation of selectors which seems useful in many problems.
+"""
 import numpy as np
 import numpy.typing as npt
 
