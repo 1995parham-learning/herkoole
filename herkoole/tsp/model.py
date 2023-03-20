@@ -36,7 +36,7 @@ class Chromosome(herkoole.chromosome.Chromosome):
         return res
 
     def random(self):
-        self.genes = [i for i in range(self.model.length)]
+        self.genes = list(range(self.model.length))
         random.shuffle(self.genes)
 
     def fitness(self) -> float:
