@@ -33,6 +33,13 @@ class NextPopulationSelector(abc.ABC):
         *args,
         **kwargs,
     ) -> typing.Callable[[EvolutionaryAlgorithm], NextPopulationSelector]:
+        """
+        We need to instantiate the selector in EvolutionaryAlgorithm class,
+        and pass the instance to. using this function users can customize
+        the parameters and put only the instantiation
+        for EvolutionaryAlgorithm class.
+        """
+
         def _new(ea: EvolutionaryAlgorithm):
             return cls(ea, *args, **kwargs)
 
@@ -175,10 +182,12 @@ class EvolutionaryAlgorithm:
 
         return self.remaining_population_selector(items, probs)
 
-    def stop_condition(self):
+    def stop_condition(self) -> bool:
         var = float("inf")
         if len(self.average_fitness) > self.window_size:
-            var = np.var(self.average_fitness[-self.window_size :])
+            var = float(
+                np.var(np.array(self.average_fitness[-self.window_size :]))
+            )
         return (
             self.generation_counter > self.max_generation_count
             or var < self.threshold
