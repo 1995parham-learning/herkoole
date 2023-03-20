@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import abc
-import typing
 
 
 class Chromosome(abc.ABC):
@@ -13,7 +12,9 @@ class Chromosome(abc.ABC):
     def mutate(self, prob: float):
         pass
 
-    @classmethod
     @abc.abstractclassmethod
-    def crossover(cls, ch1, ch2, prop: float) -> typing.Tuple[Chromosome, Chromosome]:
+    @classmethod
+    def crossover(
+        cls, ch1: Chromosome, ch2: Chromosome, prop: float
+    ) -> tuple[Chromosome, Chromosome]:
         pass

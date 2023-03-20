@@ -9,7 +9,10 @@ import random
 
 class Model(model.Model):
     def __init__(
-        self, weights: typing.List[int], values: typing.List[int], max_weight: int
+        self,
+        weights: typing.List[int],
+        values: typing.List[int],
+        max_weight: int,
     ):
         self.weights = weights
         self.values = values
@@ -19,7 +22,9 @@ class Model(model.Model):
         self.length: int = len(self.weights)
         Chromosome.model = self
 
-    def initial_population(self, mu: int) -> typing.List[chromosome.Chromosome]:
+    def initial_population(
+        self, mu: int
+    ) -> typing.List[chromosome.Chromosome]:
         population: typing.List[chromosome.Chromosome] = []
         for i in range(mu):
             chromosome = Chromosome()

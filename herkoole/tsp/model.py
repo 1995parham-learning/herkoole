@@ -15,7 +15,9 @@ class Model(model.Model):
         self.length = len(cities)
         Chromosome.model = self
 
-    def initial_population(self, mu: int) -> typing.List[chromosome.Chromosome]:
+    def initial_population(
+        self, mu: int
+    ) -> typing.List[chromosome.Chromosome]:
         population: typing.List[chromosome.Chromosome] = []
         for i in range(mu):
             chromosome = Chromosome()
