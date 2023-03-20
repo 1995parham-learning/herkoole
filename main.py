@@ -1,31 +1,21 @@
-from ea import EvolutionaryAlgorithm
-from model import Model
-from knapsack import Model as KModel
-from tsp import Model as TModel, City
-
 import typing
 import logging
-import click
 import io
+import click
 
-
-def tsp(f: io.TextIOBase) -> Model:
-    cities: typing.List[City] = []
-    while True:
-        line = f.readline()
-        if line == "":
-            break
-        coordinate = line.split()
-        identifier = int(coordinate[0])
-        x = float(coordinate[1])
-        y = float(coordinate[2])
-        city = City(identifier, x, y)
-        cities.append(city)
-
-    return TModel(cities)
+from herkoole.ea import (
+    EvolutionaryAlgorithm,
+    StochasticUniversalSampling,
+    QTournament,
+)
+from herkoole.model import Model
+from herkoole.knapsack import Model as KModel
 
 
 def knapsack(f: io.TextIOBase) -> Model:
+    """
+    reads a problem instance from a given file.
+    """
     l1 = f.readline().split()
     chromosome_length = int(l1[0])
     max_weight = int(l1[1])
@@ -55,16 +45,22 @@ def main(info, problem, iterations, verbose):
     if verbose is True:
         logging.basicConfig(level=logging.INFO)
 
-    m: Model
-    with open(info, "r") as f:
+    with open(info, "r", encoding="utf-8") as f:
         if problem == "knapsack":
             m = knapsack(f)
-        elif problem == "tsp":
-            m = tsp(f)
         else:
             return
 
-    print(EvolutionaryAlgorithm(10, 20, iterations, m).run())
+    print(
+        EvolutionaryAlgorithm(
+            10,
+            20,
+            iterations,
+            m,
+            parent_selector=StochasticUniversalSampling.new(),
+            remaining_population_selector=QTournament.new(q=2),
+        ).run()
+    )
 
 
 if __name__ == "__main__":
