@@ -91,3 +91,24 @@ weight: 52, value: 1003 with fitness: 1003
 
 As you can see all of these solutions are compatible with
 the problem constraints, but they are not optimal.
+
+### Travelling salesman problem
+
+The travelling salesman problem (also called the travelling salesperson problem or TSP) asks the following question:
+
+> Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits
+> each city exactly once and returns to the origin city?
+
+The following files contain a problem instance:
+
+- tsp_data.txt
+- tsp_example.txt
+
+Each file has the following format:
+
+```txt
+<city id> <city x coordinate> <city y coordinate>
+<city id> <city x coordinate> <city y coordinate>
+...
+<city id> <city x coordinate> <city y coordinate>
+```
