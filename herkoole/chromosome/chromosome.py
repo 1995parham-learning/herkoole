@@ -4,17 +4,21 @@ import abc
 
 
 class Chromosome(abc.ABC):
+    """
+    Abstract Chromosome class that must be extended for each problem.
+    """
+
     @abc.abstractmethod
     def fitness(self) -> float:
-        pass
+        raise NotImplementedError()
 
     @abc.abstractmethod
     def mutate(self, prob: float):
-        pass
+        raise NotImplementedError()
 
-    @abc.abstractclassmethod
+    @abc.abstractmethod
     @classmethod
     def crossover(
         cls, ch1: Chromosome, ch2: Chromosome, prop: float
     ) -> tuple[Chromosome, Chromosome]:
-        pass
+        raise NotImplementedError()
