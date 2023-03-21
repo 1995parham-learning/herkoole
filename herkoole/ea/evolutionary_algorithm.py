@@ -101,6 +101,8 @@ class EvolutionaryAlgorithm:
         ],
         window_size: int = 10,
         threshold: float = 0.1,
+        mutation_propability: float = 0.1,
+        crossover_propability: float = 1,
     ):
         # mu (population size)
         self.m = mu
@@ -121,6 +123,9 @@ class EvolutionaryAlgorithm:
         self.remaining_population_selector = remaining_population_selector(
             self
         )
+
+        self.mutation_propabiity = mutation_propability
+        self.crossover_propability = crossover_propability
 
     def run(self) -> Chromosome:
         while True:
@@ -163,10 +168,10 @@ class EvolutionaryAlgorithm:
 
         for i in range(0, len(parents) - 1, 2):
             chromosome1, chromosome2 = chromosome_type.crossover(
-                parents[i], parents[i + 1], 1
+                parents[i], parents[i + 1], self.crossover_propability
             )
-            chromosome1.mutate(0.1)
-            chromosome2.mutate(0.1)
+            chromosome1.mutate(self.mutation_propabiity)
+            chromosome2.mutate(self.mutation_propabiity)
             children.extend([chromosome1, chromosome2])
             if len(children) >= self.y:
                 break
