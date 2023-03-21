@@ -84,6 +84,9 @@ def main(info, problem, iterations, verbose):
             parent_selector=StochasticUniversalSampling.new(),
             remaining_population_selector=QTournament.new(q=2),
             threshold=0.0001,
+            # the following line actually disables the similarity
+            # check between generations.
+            # window_size=iterations,
         ).run()
     )
 
