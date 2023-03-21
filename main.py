@@ -87,6 +87,8 @@ def main(info, problem, iterations, verbose):
             # the following line actually disables the similarity
             # check between generations.
             # window_size=iterations,
+            crossover_propability=0.1,
+            mutation_propability=0.5,
         ).run()
     )
 
