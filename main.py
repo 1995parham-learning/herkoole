@@ -83,6 +83,7 @@ def main(info, problem, iterations, verbose):
             m,
             parent_selector=StochasticUniversalSampling.new(),
             remaining_population_selector=QTournament.new(q=2),
+            threshold=0.0001,
         ).run()
     )
 
