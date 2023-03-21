@@ -13,7 +13,7 @@ from .evolutionary_algorithm import (
 
 
 class StochasticUniversalSampling(ParentSelector):
-    def select(self, probs: npt.NDArray[np.float64]):
+    def select(self, probs: npt.NDArray[np.float64]) -> list[Chromosome]:
         index = np.arange(self.ea.m)
         np.random.shuffle(index)
         items = np.array(self.ea.population)[index]
@@ -32,7 +32,7 @@ class StochasticUniversalSampling(ParentSelector):
 
             selected_items.append(items[items_pointer])
 
-        return np.array(selected_items)
+        return selected_items
 
 
 class QTournament(NextPopulationSelector):
