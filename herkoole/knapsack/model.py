@@ -82,6 +82,8 @@ class Chromosome(herkoole.chromosome.Chromosome):
 
         fitness = total_value
 
+        # reduce the fitnees to make sure we don't passes
+        # the constraints.
         if total_weight > self.model.max_weight:
             return 1 / fitness
 
@@ -109,6 +111,7 @@ class Chromosome(herkoole.chromosome.Chromosome):
             Chromosome(parent1.model),
             Chromosome(parent2.model),
         )
+
         rand = random.random()
         if rand < prob:
             chromosome1.genes[:idx] = parent1.genes[:idx]
