@@ -24,6 +24,9 @@ In `Herkoole` chromosome is an abstract class, and you need to extend it for you
 Also, in `Herkoole` there is a class named Model which initiates the evolutionary algorithm,
 and you also must have a model for your problem.
 
+The algorithm stops when it has multiple results that are very similar
+or the number of generations passes the threshold.
+
 ## Up and Running
 
 ### Knapsack
