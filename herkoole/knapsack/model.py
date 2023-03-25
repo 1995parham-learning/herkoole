@@ -40,7 +40,7 @@ class Model(herkoole.model.Model):
         return population
 
 
-class Chromosome(herkoole.chromosome.Chromosome):
+class Chromosome(herkoole.chromosome.Chromosome[bool]):
     """
     Chromosome represents a one solution for knapsack problem which shows
     an item selection. Each gens coresponds into an item which is picked
@@ -48,10 +48,10 @@ class Chromosome(herkoole.chromosome.Chromosome):
     """
 
     def __init__(self, model: Model):
-        self.genes: list[bool] = []
         self.model = model
+        super().__init__()
 
-    def __repr__(self):
+    def __str__(self):
         total_weight = 0
         total_value = 0
 
@@ -59,9 +59,17 @@ class Chromosome(herkoole.chromosome.Chromosome):
             if gene is True:
                 total_weight += self.model.weights[i]
                 total_value += self.model.values[i]
+
+        genes = "\n".join(
+            f"\t - {i}: weight: {self.model.weights[i]}"
+            f", value: {self.model.values[i]}"
+            for i, gene in enumerate(self.genes)
+            if gene is True
+        )
         return (
             f"weight: {total_weight}, "
-            f"value: {total_value} with fitness: {self.fitness()}"
+            f"value: {total_value} with fitness: {self.fitness()}\n"
+            f"genes:\n{genes}"
         )
 
     def random(self):
@@ -119,7 +127,7 @@ class Chromosome(herkoole.chromosome.Chromosome):
             chromosome2.genes[:idx] = parent2.genes[:idx]
             chromosome2.genes[idx:] = parent1.genes[idx:]
         else:
-            chromosome1.genes = parent1.genes[:]
-            chromosome2.genes = parent2.genes[:]
+            chromosome1.genes[:] = parent1.genes[:]
+            chromosome2.genes[:] = parent2.genes[:]
 
         return chromosome1, chromosome2
