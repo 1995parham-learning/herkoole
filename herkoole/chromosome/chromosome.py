@@ -1,12 +1,26 @@
 from __future__ import annotations
 
 import abc
+import typing
+
+T = typing.TypeVar("T")
 
 
-class Chromosome(abc.ABC):
+class Chromosome(abc.ABC, typing.Generic[T]):
     """
     Abstract Chromosome class that must be extended for each problem.
     """
+
+    def __init__(self):
+        self.genes: typing.MutableSequence[T] = []
+
+    def __iter__(self) -> typing.Iterator[T]:
+        return self.genes.__iter__()
+
+    def __eq__(self, o: object) -> bool:
+        if isinstance(o, Chromosome):
+            return o.genes == self.genes
+        return False
 
     @abc.abstractmethod
     def fitness(self) -> float:
