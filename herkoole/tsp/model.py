@@ -23,10 +23,11 @@ class Model(herkoole.model.Model):
         return population
 
 
-class Chromosome(herkoole.chromosome.Chromosome):
+class Chromosome(herkoole.chromosome.Chromosome[int]):
     def __init__(self, model: Model):
-        self.genes: list[int] = []
         self.model = model
+
+        super().__init__()
 
     def __repr__(self):
         res = " -> ".join(repr(self.model.cities[gene]) for gene in self.genes)
