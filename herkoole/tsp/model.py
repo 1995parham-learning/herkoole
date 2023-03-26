@@ -30,7 +30,7 @@ class Chromosome(herkoole.chromosome.Chromosome[int]):
         super().__init__()
 
     def __str__(self):
-        res = " -> ".join(repr(self.model.cities[gene]) for gene in self.genes)
+        res = " -> ".join(str(self.model.cities[gene]) for gene in self.genes)
 
         res += f"\n\tfintess: {self.fitness():.4f}"
 
