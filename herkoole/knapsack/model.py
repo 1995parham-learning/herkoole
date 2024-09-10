@@ -21,12 +21,12 @@ class Model(herkoole.model.Model):
         weights: list[int],
         values: list[int],
         max_weight: int,
-    ):
+    ) -> None:
         self.weights = weights
         self.values = values
         self.max_weight = max_weight
         if len(self.weights) != len(self.values):
-            raise ValueError("each item must a value and weight")
+            raise ValueError
         self.length: int = len(self.weights)
 
     def initial_population(self, mu: int) -> list[herkoole.chromosome.Chromosome]:
@@ -47,22 +47,22 @@ class Chromosome(herkoole.chromosome.Chromosome[bool]):
     or not.
     """
 
-    def __init__(self, model: Model):
+    def __init__(self, model: Model) -> None:
         self.model = model
         super().__init__()
 
-    def __str__(self):
+    def __str__(self) -> str:
         total_weight = 0
         total_value = 0
 
         for i, gene in enumerate(self.genes):
             if gene is True:
                 total_weight += self.model.weights[i]
-                total_value += self.model.values[i]
+                total_value += self.model.values[i]  # noqa: PD011
 
         genes = "\n".join(
             f"\t - {i}: weight: {self.model.weights[i]}"
-            f", value: {self.model.values[i]}"
+            f", value: {self.model.values[i]}"  # noqa: PD011
             for i, gene in enumerate(self.genes)
             if gene is True
         )
@@ -72,7 +72,7 @@ class Chromosome(herkoole.chromosome.Chromosome[bool]):
             f"genes:\n{genes}"
         )
 
-    def random(self):
+    def random(self) -> None:
         """
         set values for gens randomly
         """
@@ -86,7 +86,7 @@ class Chromosome(herkoole.chromosome.Chromosome[bool]):
         for i, gene in enumerate(self.genes):
             if gene is True:
                 total_weight += self.model.weights[i]
-                total_value += self.model.values[i]
+                total_value += self.model.values[i]  # noqa: PD011
 
         fitness = total_value
 
@@ -97,7 +97,7 @@ class Chromosome(herkoole.chromosome.Chromosome[bool]):
 
         return fitness
 
-    def mutate(self, prob: float):
+    def mutate(self, prob: float) -> None:
         rand = random.random()
         if rand < prob:
             i = random.randrange(self.model.length)
@@ -110,8 +110,8 @@ class Chromosome(herkoole.chromosome.Chromosome[bool]):
         parent2: herkoole.chromosome.Chromosome,
         prob: float,
     ) -> tuple[herkoole.chromosome.Chromosome, herkoole.chromosome.Chromosome]:
-        assert isinstance(parent1, cls)
-        assert isinstance(parent2, cls)
+        if not isinstance(parent1, cls) or not isinstance(parent2, cls):
+            raise TypeError
 
         idx = random.randrange(parent1.model.length)
 

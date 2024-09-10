@@ -9,7 +9,7 @@ class Chromosome[T](abc.ABC):
     Abstract Chromosome class that must be extended for each problem.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.genes: typing.MutableSequence[T] = []
 
     def __iter__(self) -> typing.Iterator[T]:
@@ -25,12 +25,15 @@ class Chromosome[T](abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def mutate(self, prob: float):
+    def mutate(self, prob: float) -> None:
         raise NotImplementedError
 
     @classmethod
     @abc.abstractmethod
     def crossover(
-        cls, parent1: Chromosome, parent2: Chromosome, prob: float,
+        cls,
+        parent1: Chromosome,
+        parent2: Chromosome,
+        prob: float,
     ) -> tuple[Chromosome, Chromosome]:
         raise NotImplementedError

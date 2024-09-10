@@ -1,15 +1,17 @@
 from __future__ import annotations
 
 import random
+from typing import TYPE_CHECKING
 
 import herkoole.chromosome
 import herkoole.model
 
-from .city import City
+if TYPE_CHECKING:
+    from .city import City
 
 
 class Model(herkoole.model.Model):
-    def __init__(self, cities: list[City]):
+    def __init__(self, cities: list[City]) -> None:
         self.cities = cities
         self.length = len(cities)
 
@@ -23,19 +25,19 @@ class Model(herkoole.model.Model):
 
 
 class Chromosome(herkoole.chromosome.Chromosome[int]):
-    def __init__(self, model: Model):
+    def __init__(self, model: Model) -> None:
         self.model = model
 
         super().__init__()
 
-    def __str__(self):
+    def __str__(self) -> str:
         res = " -> ".join(str(self.model.cities[gene]) for gene in self.genes)
 
         res += f"\n\tfintess: {self.fitness():.4f}"
 
         return res
 
-    def random(self):
+    def random(self) -> None:
         self.genes = list(range(self.model.length))
         random.shuffle(self.genes)
 
@@ -49,7 +51,7 @@ class Chromosome(herkoole.chromosome.Chromosome[int]):
 
         return 1 / distance
 
-    def mutate(self, prob: float):
+    def mutate(self, prob: float) -> None:
         rand = random.random()
         if rand < prob:
             i, j = random.sample(range(self.model.length), 2)
@@ -62,8 +64,8 @@ class Chromosome(herkoole.chromosome.Chromosome[int]):
         parent2: herkoole.chromosome.Chromosome,
         prob: float,
     ) -> tuple[herkoole.chromosome.Chromosome, herkoole.chromosome.Chromosome]:
-        assert isinstance(parent1, Chromosome)
-        assert isinstance(parent2, Chromosome)
+        if not isinstance(parent1, Chromosome) or isinstance(parent2, Chromosome):
+            raise TypeError
 
         rand = random.random()
         if rand >= prob:
@@ -74,9 +76,10 @@ class Chromosome(herkoole.chromosome.Chromosome[int]):
         cyclestart = (i for i, v in enumerate(cycles) if v < 0)
 
         for pos in cyclestart:
-            while cycles[pos] < 0:
-                cycles[pos] = cycle_no
-                pos = parent1.genes.index(parent2.genes[pos])
+            _pos = pos
+            while cycles[_pos] < 0:
+                cycles[_pos] = cycle_no
+                _pos = parent1.genes.index(parent2.genes[_pos])
 
         cycle_no += 1
 

@@ -157,7 +157,7 @@ class EvolutionaryAlgorithm:
 
         random.shuffle(parents)
 
-        chromosome_type: typing.Type[Chromosome] = type(parents[0])
+        chromosome_type: type[Chromosome] = type(parents[0])
 
         for i in range(0, len(parents) - 1, 2):
             chromosome1, chromosome2 = chromosome_type.crossover(

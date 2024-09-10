@@ -1,5 +1,4 @@
 import abc
-import typing
 
 from herkoole.chromosome import Chromosome
 
@@ -11,7 +10,7 @@ class Model(abc.ABC):
     """
 
     @abc.abstractmethod
-    def initial_population(self, mu: int) -> typing.List[Chromosome]:
+    def initial_population(self, mu: int) -> list[Chromosome]:
         """
         Generate the initial chromosomes.
         """

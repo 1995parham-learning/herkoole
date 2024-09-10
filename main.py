@@ -1,14 +1,10 @@
 import io
 import logging
-import typing
+import pathlib
 
 import click
 
-from herkoole.ea import (
-    EvolutionaryAlgorithm,
-    QTournament,
-    StochasticUniversalSampling,
-)
+from herkoole.ea import EvolutionaryAlgorithm, QTournament, StochasticUniversalSampling
 from herkoole.knapsack import Model as KModel
 from herkoole.model import Model
 from herkoole.tsp import City
@@ -20,7 +16,7 @@ def tsp(f: io.TextIOBase) -> Model:
     reads a problem instance from a given file.
     """
 
-    cities: typing.List[City] = []
+    cities: list[City] = []
     while True:
         line = f.readline()
         if line == "":
@@ -43,8 +39,8 @@ def knapsack(f: io.TextIOBase) -> Model:
     chromosome_length = int(l1[0])
     max_weight = int(l1[1])
 
-    weights: typing.List[int] = []
-    values: typing.List[int] = []
+    weights: list[int] = []
+    values: list[int] = []
 
     for _ in range(chromosome_length):
         value_weight = f.readline().split()
@@ -64,11 +60,11 @@ def knapsack(f: io.TextIOBase) -> Model:
 )
 @click.option("--iterations", "-t", default=100, type=int)
 @click.option("--verbose", "-v", default=False, is_flag=True)
-def main(info, problem, iterations, verbose):
+def main(info: str, problem: str, iterations: int, verbose: bool) -> None:
     if verbose is True:
         logging.basicConfig(level=logging.INFO)
 
-    with open(info, encoding="utf-8") as f:
+    with pathlib.Path(info).open(encoding="utf-8") as f:
         match problem:
             case "knapsack":
                 m = knapsack(f)

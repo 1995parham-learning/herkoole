@@ -2,7 +2,7 @@ from .city import City
 from .model import Chromosome, Model
 
 
-def test_initiation():
+def test_initiation() -> None:
     cities = [
         City(1, 0, 0),
         City(2, 1, 0),
