@@ -27,7 +27,7 @@ class NextPopulationSelector(abc.ABC):
         self.ea = ea
 
     def __call__(
-        self, items: list[Chromosome], probs: npt.NDArray[np.float64]
+        self, items: list[Chromosome], probs: npt.NDArray[np.float64],
     ) -> list[Chromosome]:
         return self.select(items, probs)
 
@@ -108,7 +108,7 @@ class EvolutionaryAlgorithm:
         threshold: float = 0.1,
         mutation_propability: float = 0.1,
         crossover_propability: float = 1,
-    ):
+    ) -> None:
         # mu (population size)
         self.m = mu
         # lambda (children size)
