@@ -27,15 +27,17 @@ class NextPopulationSelector(abc.ABC):
         self.ea = ea
 
     def __call__(
-        self, items: list[Chromosome], probs: npt.NDArray[np.float64],
+        self,
+        items: list[Chromosome],
+        probs: npt.NDArray[np.float64],
     ) -> list[Chromosome]:
         return self.select(items, probs)
 
     @classmethod
     def new(
         cls,
-        *args,
-        **kwargs,
+        *args,  # noqa: ANN002
+        **kwargs,  # noqa: ANN003
     ) -> typing.Callable[[EvolutionaryAlgorithm], NextPopulationSelector]:
         """
         We need to instantiate the selector in EvolutionaryAlgorithm class,
@@ -67,16 +69,16 @@ class ParentSelector(abc.ABC):
     def __init__(self, ea: EvolutionaryAlgorithm) -> None:
         self.ea = ea
 
-    def __call__(self, probs: npt.NDArray[np.float64]):
+    def __call__(self, probs: npt.NDArray[np.float64]) -> list[Chromosome]:
         return self.select(probs)
 
     @classmethod
     def new(
         cls,
-        *args,
-        **kwargs,
+        *args,  # noqa: ANN002
+        **kwargs,  # noqa: ANN003
     ) -> typing.Callable[[EvolutionaryAlgorithm], ParentSelector]:
-        def _new(ea: EvolutionaryAlgorithm):
+        def _new(ea: EvolutionaryAlgorithm) -> ParentSelector:
             return cls(ea, *args, **kwargs)
 
         return _new
@@ -93,7 +95,7 @@ class EvolutionaryAlgorithm:
 
     logger = logging.getLogger(__name__)
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         mu: int,
         y: int,
@@ -159,7 +161,7 @@ class EvolutionaryAlgorithm:
 
         return self.parent_selector(probs)
 
-    def new_children(self, parents: list[Chromosome]):
+    def new_children(self, parents: list[Chromosome]) -> list[Chromosome]:
         children: list[Chromosome] = []
 
         random.shuffle(parents)
