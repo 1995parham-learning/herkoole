@@ -17,3 +17,4 @@ jobs:
       - run: pipenv run mypy .
       - run: pipenv run pylint --fail-under 8.5 herkoole
       - run: pipenv run ruff check
+      - run: pipenv run ruff format --check
