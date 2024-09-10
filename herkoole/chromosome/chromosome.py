@@ -3,10 +3,8 @@ from __future__ import annotations
 import abc
 import typing
 
-T = typing.TypeVar("T")
 
-
-class Chromosome(abc.ABC, typing.Generic[T]):
+class Chromosome[T](abc.ABC):
     """
     Abstract Chromosome class that must be extended for each problem.
     """

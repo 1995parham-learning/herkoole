@@ -1,1 +1,1 @@
-from .chromosome import Chromosome
+from .chromosome import Chromosome as Chromosome

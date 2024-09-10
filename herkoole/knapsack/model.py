@@ -6,7 +6,9 @@ which items to include in the collection so that the total weight
 is less than or equal to a given limit
 and the total value is as large as possible
 """
+
 from __future__ import annotations
+
 import random
 
 import herkoole.chromosome
@@ -27,9 +29,7 @@ class Model(herkoole.model.Model):
             raise ValueError("each item must a value and weight")
         self.length: int = len(self.weights)
 
-    def initial_population(
-        self, mu: int
-    ) -> list[herkoole.chromosome.Chromosome]:
+    def initial_population(self, mu: int) -> list[herkoole.chromosome.Chromosome]:
         population: list[herkoole.chromosome.Chromosome] = []
 
         for _ in range(mu):

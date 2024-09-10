@@ -1,2 +1,2 @@
-from .model import Model
-from .city import City
+from .city import City as City
+from .model import Model as Model
