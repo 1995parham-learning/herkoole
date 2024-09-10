@@ -7,4 +7,5 @@ select = ["ALL"]
 [lint.per-file-ignores]
 "**/test_*.py" = [
     "S101", # asserts allowed in tests...
+    "PLR2004",
 ]
