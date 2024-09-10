@@ -6,6 +6,8 @@
 
 <p align="center">
   <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/1995parham-learning/herkoole/ci.yml?logo=github&style=for-the-badge">
+  <img alt="GitHub Pipenv locked Python version" src="https://img.shields.io/github/pipenv/locked/python-version/1995parham-learning/herkoole?style=for-the-badge&logo=python">
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/1995parham-learning/herkoole?logo=github&style=for-the-badge">
 </p>
 
 ## Introduction
