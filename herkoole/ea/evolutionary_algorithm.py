@@ -1,6 +1,7 @@
 """
 Evolutionary algorithm core types and selection algorithms.
 """
+
 from __future__ import annotations
 import random
 import typing
@@ -22,9 +23,7 @@ class NextPopulationSelector(abc.ABC):
     def __init__(self, ea: EvolutionaryAlgorithm):
         self.ea = ea
 
-    def __call__(
-        self, items: list[Chromosome], probs: npt.NDArray[np.float64]
-    ):
+    def __call__(self, items: list[Chromosome], probs: npt.NDArray[np.float64]):
         return self.select(items, probs)
 
     @classmethod
@@ -93,9 +92,7 @@ class EvolutionaryAlgorithm:
         y: int,
         max_generation_count: int,
         model: Model,
-        parent_selector: typing.Callable[
-            [EvolutionaryAlgorithm], ParentSelector
-        ],
+        parent_selector: typing.Callable[[EvolutionaryAlgorithm], ParentSelector],
         remaining_population_selector: typing.Callable[
             [EvolutionaryAlgorithm], NextPopulationSelector
         ],
@@ -120,9 +117,7 @@ class EvolutionaryAlgorithm:
         self.generation_counter = 0
 
         self.parent_selector = parent_selector(self)
-        self.remaining_population_selector = remaining_population_selector(
-            self
-        )
+        self.remaining_population_selector = remaining_population_selector(self)
 
         self.mutation_propabiity = mutation_propability
         self.crossover_propability = crossover_propability
@@ -130,11 +125,7 @@ class EvolutionaryAlgorithm:
     def run(self) -> Chromosome:
         while True:
             self.average_fitness.append(
-                float(
-                    np.average(
-                        np.array([p.fitness() for p in self.population])
-                    )
-                )
+                float(np.average(np.array([p.fitness() for p in self.population])))
             )
             self.logger.info(
                 "Generation %d - %f",
@@ -190,12 +181,9 @@ class EvolutionaryAlgorithm:
     def stop_condition(self) -> bool:
         var = float("inf")
         if len(self.average_fitness) > self.window_size:
-            var = float(
-                np.var(np.array(self.average_fitness[-self.window_size :]))
-            )
+            var = float(np.var(np.array(self.average_fitness[-self.window_size :])))
         return (
-            self.generation_counter > self.max_generation_count
-            or var < self.threshold
+            self.generation_counter > self.max_generation_count or var < self.threshold
         )
 
     def get_answer(self) -> Chromosome:

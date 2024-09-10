@@ -12,9 +12,7 @@ class Model(herkoole.model.Model):
         self.cities = cities
         self.length = len(cities)
 
-    def initial_population(
-        self, mu: int
-    ) -> list[herkoole.chromosome.Chromosome]:
+    def initial_population(self, mu: int) -> list[herkoole.chromosome.Chromosome]:
         population: list[herkoole.chromosome.Chromosome] = []
         for _ in range(mu):
             chromosome = Chromosome(self)

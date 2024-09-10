@@ -1,6 +1,7 @@
 """
 Implementation of selectors which seems useful in many problems.
 """
+
 import numpy as np
 import numpy.typing as npt
 
@@ -57,9 +58,7 @@ class QTournament(NextPopulationSelector):
         len_items = len(np_items)
 
         for _ in range(self.ea.m):
-            indexes = np.random.choice(
-                np.arange(len_items), self.q, replace=False
-            )
+            indexes = np.random.choice(np.arange(len_items), self.q, replace=False)
             selected_items.append(np_items[indexes[np.argmax(probs[indexes])]])
 
         return list(selected_items)
