@@ -60,7 +60,12 @@ def knapsack(f: io.TextIOBase) -> Model:
 )
 @click.option("--iterations", "-t", default=100, type=int)
 @click.option("--verbose", "-v", default=False, is_flag=True)
-def main(info: str, problem: str, iterations: int, verbose: bool) -> None:
+def main(
+    info: str,
+    problem: str,
+    iterations: int,
+    verbose: bool,  # noqa: FBT001
+) -> None:
     if verbose is True:
         logging.basicConfig(level=logging.INFO)
 
@@ -73,7 +78,7 @@ def main(info: str, problem: str, iterations: int, verbose: bool) -> None:
             case _:
                 return
 
-    print(
+    print(  # noqa: T201
         EvolutionaryAlgorithm(
             10,
             20,
@@ -84,7 +89,7 @@ def main(info: str, problem: str, iterations: int, verbose: bool) -> None:
             threshold=0.0001,
             # the following line actually disables the similarity
             # check between generations.
-            # window_size=iterations,
+            # window_size=iterations,  # noqa: ERA001
             crossover_propability=0.1,
             mutation_propability=0.5,
         ).run(),
