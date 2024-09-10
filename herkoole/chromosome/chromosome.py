@@ -22,15 +22,15 @@ class Chromosome[T](abc.ABC):
 
     @abc.abstractmethod
     def fitness(self) -> float:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @abc.abstractmethod
     def mutate(self, prob: float):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @classmethod
     @abc.abstractmethod
     def crossover(
-        cls, parent1: Chromosome, parent2: Chromosome, prob: float
+        cls, parent1: Chromosome, parent2: Chromosome, prob: float,
     ) -> tuple[Chromosome, Chromosome]:
-        raise NotImplementedError()
+        raise NotImplementedError

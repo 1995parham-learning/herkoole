@@ -6,10 +6,11 @@ import numpy as np
 import numpy.typing as npt
 
 from herkoole.chromosome import Chromosome
+
 from .evolutionary_algorithm import (
-    ParentSelector,
-    NextPopulationSelector,
     EvolutionaryAlgorithm,
+    NextPopulationSelector,
+    ParentSelector,
 )
 
 
@@ -44,7 +45,7 @@ class QTournament(NextPopulationSelector):
         super().__init__(ea)
 
     def select(
-        self, items: list[Chromosome], probs: npt.NDArray[np.float64]
+        self, items: list[Chromosome], probs: npt.NDArray[np.float64],
     ) -> list[Chromosome]:
         if self.ea.m == 0:
             return []

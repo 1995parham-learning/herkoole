@@ -3,15 +3,17 @@ Evolutionary algorithm core types and selection algorithms.
 """
 
 from __future__ import annotations
+
+import abc
+import logging
 import random
 import typing
-import logging
-import abc
+
 import numpy as np
 import numpy.typing as npt
 
-from herkoole.model import Model
 from herkoole.chromosome import Chromosome
+from herkoole.model import Model
 
 
 class NextPopulationSelector(abc.ABC):
@@ -46,7 +48,7 @@ class NextPopulationSelector(abc.ABC):
 
     @abc.abstractmethod
     def select(
-        self, items: list[Chromosome], probs: npt.NDArray[np.float64]
+        self, items: list[Chromosome], probs: npt.NDArray[np.float64],
     ) -> list[Chromosome]:
         pass
 
@@ -94,7 +96,7 @@ class EvolutionaryAlgorithm:
         model: Model,
         parent_selector: typing.Callable[[EvolutionaryAlgorithm], ParentSelector],
         remaining_population_selector: typing.Callable[
-            [EvolutionaryAlgorithm], NextPopulationSelector
+            [EvolutionaryAlgorithm], NextPopulationSelector,
         ],
         window_size: int = 10,
         threshold: float = 0.1,
@@ -125,7 +127,7 @@ class EvolutionaryAlgorithm:
     def run(self) -> Chromosome:
         while True:
             self.average_fitness.append(
-                float(np.average(np.array([p.fitness() for p in self.population])))
+                float(np.average(np.array([p.fitness() for p in self.population]))),
             )
             self.logger.info(
                 "Generation %d - %f",
@@ -135,7 +137,7 @@ class EvolutionaryAlgorithm:
             parents = self.parent_selection()
             children = self.new_children(parents)
             self.population = self.remaining_population_selection(
-                self.population, children
+                self.population, children,
             )
             self.generation_counter += 1
 
@@ -159,7 +161,7 @@ class EvolutionaryAlgorithm:
 
         for i in range(0, len(parents) - 1, 2):
             chromosome1, chromosome2 = chromosome_type.crossover(
-                parents[i], parents[i + 1], self.crossover_propability
+                parents[i], parents[i + 1], self.crossover_propability,
             )
             chromosome1.mutate(self.mutation_propabiity)
             chromosome2.mutate(self.mutation_propabiity)
@@ -170,7 +172,7 @@ class EvolutionaryAlgorithm:
         return children[: self.y]
 
     def remaining_population_selection(
-        self, previous_population: list[Chromosome], children: list[Chromosome]
+        self, previous_population: list[Chromosome], children: list[Chromosome],
     ) -> list[Chromosome]:
         items = [*previous_population, *children]
         fitnesses = np.array([i.fitness() for i in items])

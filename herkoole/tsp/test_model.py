@@ -1,5 +1,5 @@
-from .model import Model, Chromosome
 from .city import City
+from .model import Chromosome, Model
 
 
 def test_initiation():

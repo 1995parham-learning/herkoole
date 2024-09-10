@@ -4,6 +4,7 @@ import random
 
 import herkoole.chromosome
 import herkoole.model
+
 from .city import City
 
 

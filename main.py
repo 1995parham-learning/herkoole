@@ -1,16 +1,18 @@
-import typing
-import logging
 import io
+import logging
+import typing
+
 import click
 
 from herkoole.ea import (
     EvolutionaryAlgorithm,
-    StochasticUniversalSampling,
     QTournament,
+    StochasticUniversalSampling,
 )
-from herkoole.model import Model
 from herkoole.knapsack import Model as KModel
-from herkoole.tsp import Model as TModel, City
+from herkoole.model import Model
+from herkoole.tsp import City
+from herkoole.tsp import Model as TModel
 
 
 def tsp(f: io.TextIOBase) -> Model:
@@ -66,7 +68,7 @@ def main(info, problem, iterations, verbose):
     if verbose is True:
         logging.basicConfig(level=logging.INFO)
 
-    with open(info, "r", encoding="utf-8") as f:
+    with open(info, encoding="utf-8") as f:
         match problem:
             case "knapsack":
                 m = knapsack(f)
@@ -89,7 +91,7 @@ def main(info, problem, iterations, verbose):
             # window_size=iterations,
             crossover_propability=0.1,
             mutation_propability=0.5,
-        ).run()
+        ).run(),
     )
 
 
