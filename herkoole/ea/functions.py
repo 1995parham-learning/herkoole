@@ -46,7 +46,9 @@ class QTournament(NextPopulationSelector):
         super().__init__(ea)
 
     def select(
-        self, items: list[Chromosome], probs: npt.NDArray[np.float64],
+        self,
+        items: list[Chromosome],
+        probs: npt.NDArray[np.float64],
     ) -> list[Chromosome]:
         if self.ea.m == 0:
             return []
