@@ -58,11 +58,11 @@ class Chromosome(herkoole.chromosome.Chromosome[bool]):
         for i, gene in enumerate(self.genes):
             if gene is True:
                 total_weight += self.model.weights[i]
-                total_value += self.model.values[i]  # noqa: PD011
+                total_value += self.model.values[i]
 
         genes = "\n".join(
             f"\t - {i}: weight: {self.model.weights[i]}"
-            f", value: {self.model.values[i]}"  # noqa: PD011
+            f", value: {self.model.values[i]}"
             for i, gene in enumerate(self.genes)
             if gene is True
         )
@@ -86,7 +86,7 @@ class Chromosome(herkoole.chromosome.Chromosome[bool]):
         for i, gene in enumerate(self.genes):
             if gene is True:
                 total_weight += self.model.weights[i]
-                total_value += self.model.values[i]  # noqa: PD011
+                total_value += self.model.values[i]
 
         fitness = total_value
 
